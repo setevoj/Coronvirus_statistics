@@ -7,10 +7,7 @@ import get_telegram_data
 
 def text2int(str_array):
     # Конвертируем массив текстовых форматированных записей в массив чисел
-    result = []
-    for str in str_array:
-        result.append(int(str.replace(" ", "")))
-    return result
+    return [int(s.replace(' ', '')) for s in str_array]
 
 
 def get_site_data():
