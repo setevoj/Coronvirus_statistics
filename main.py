@@ -97,9 +97,9 @@ def get_tginfo_message(*args):
     if data_date is None:
         day_name = 'последнее время'
     elif data_date == datetime.today().date():
-        day_name = "сегодня"
-    elif data_date == datetime.today().date() - timedelta(days=1):
         day_name = "вчера"
+    elif data_date == datetime.today().date() - timedelta(days=1):
+        day_name = "позавчера"
     else:
         day_name = data_date.strftime("%m.%d.%Y")
 
@@ -109,14 +109,14 @@ def get_tginfo_message(*args):
             message += f" ({hosp_inc:+d} к предыдущему дню).\n"
         else:
             message += "(данных за предыдущий день нет).\n"
-        message += f"Число больных на ИВЛ за {day_name}: {ventilated}"
+        message += f"Число больных на ИВЛ в Москве за {day_name}: {ventilated}"
         if vent_inc is not None:
             message += f" ({vent_inc:+d} к предыдущему дню)."
         else:
             message += "(данных за предыдущий день нет)."
     else:
-        message = f"Нет данных по госпитализациям за {day_name}."
-        message += f"\nНет данных по больным на ИВЛ за {day_name}."
+        message = f"Нет данных по госпитализациям в Москве за {day_name}."
+        message += f"\nНет данных по больным на ИВЛ в Москве за {day_name}."
 
     return message
 
