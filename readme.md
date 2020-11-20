@@ -18,7 +18,7 @@
         Устанавливаются командой:
         pip3 install telethon
         pip3 install beautifulsoup4
-        pip install MechanicalSoup
+        pip3 install MechanicalSoup
 3) Файл config_example.py надо переименовать в config.py и заполнить указанные там данные (инструкция внутри файла)
 4) (скорее всего) вы должны подписаться на канал Оперштаба Москвы в телеграме (чтобы ваш клиент мог читать данные)
         адрес канала: https://t.me/COVID2019_official
