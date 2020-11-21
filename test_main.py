@@ -4,7 +4,7 @@ from main import (
     text2int, parse_site_data,
     RegionData, RUSSIAN_DATA_FIELD_NAMES, REGION_DATA_FIELD_NAMES
 )
-from get_telegram_data import MoscowData
+from moscow_data import MoscowData
 
 
 def test_text2int():

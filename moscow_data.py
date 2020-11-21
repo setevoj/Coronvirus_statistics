@@ -1,11 +1,7 @@
 # Модуль для парсинга данных из телеграм-канала оперштаба Москвы
-
-from config import username, api_id, api_hash
-from telethon import TelegramClient
-from telethon.tl.functions.messages import (GetHistoryRequest)
+from telegram import get_messages
 
 moscow_covid_channel = 'https://t.me/COVID2019_official'
-client = TelegramClient(username, api_id, api_hash)
 
 
 MOSCOW_DATA_TAG = '️В Москве за сутки госпитализировали'
@@ -19,29 +15,6 @@ class MoscowData:
         words = message_text.splitlines()[2].split()
         # Вычленяем три числа из третьей строки
         self.infected, self.hospitalized, self.ventilated = [int(s) for s in words if s.isdigit()]
-
-
-def get_messages(url, limit=100):
-    """Get LIMIT messages from Telegram channel with given URL."""
-    client = TelegramClient(username, api_id, api_hash)
-
-    async def get_channel_data():
-        nonlocal client
-        channel = await client.get_entity(url)
-        history = await client(GetHistoryRequest(
-            peer=channel,
-            offset_id=0,
-            offset_date=None,
-            add_offset=0,
-            limit=limit,
-            max_id=0,
-            min_id=0,
-            hash=0
-        ))
-        return history.messages
-
-    with client:
-        return client.loop.run_until_complete(get_channel_data())
 
 
 def get_opershtab_db():

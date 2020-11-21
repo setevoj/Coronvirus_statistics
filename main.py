@@ -2,7 +2,7 @@ import json
 import mechanicalsoup
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
-import get_telegram_data
+import moscow_data
 
 
 # https://стопкоронавирус.рф/information/
@@ -134,7 +134,7 @@ def print_data():
     print("Данные с сайта получены.")
 
     print("Запрашиваем данные из телеграма...")
-    db = get_telegram_data.get_opershtab_db()
+    db = moscow_data.get_opershtab_db()
     # Берём данные за последний доступный день
     tg_data = extract_last_data(db)
     print("Данные из телеграма получены.\n")
