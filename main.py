@@ -1,6 +1,4 @@
 from moscow_data import extract_last_data, get_tginfo_message
-
-
 from regions_data import STOP_CORONAVIRUS_URL, get_site_data
 
 
