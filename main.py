@@ -17,7 +17,11 @@ def text2int(str_array):
 def get_site_data(url):
     # Получаем данные с сайта
     browser = mechanicalsoup.StatefulBrowser()
-    soup = BeautifulSoup(browser.open(url).text, features='lxml')
+    return parse_site_data(browser.open(url).text)
+
+
+def parse_site_data(text):
+    soup = BeautifulSoup(text, features='lxml')
 
     # Данные по Москве
     ru_data = json.loads(soup.find("cv-stats-virus").attrs[":stats-data"])
