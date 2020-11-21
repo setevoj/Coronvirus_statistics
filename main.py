@@ -5,15 +5,19 @@ from datetime import datetime, timedelta
 import get_telegram_data
 
 
+# https://стопкоронавирус.рф/information/
+STOP_CORONAVIRUS_URL = 'https://xn--80aesfpebagmfblc0a.xn--p1ai/information/'
+
+
 def text2int(str_array):
     # Конвертируем массив текстовых форматированных записей в массив чисел
     return [int(s.replace(' ', '')) for s in str_array]
 
 
-def get_site_data():
+def get_site_data(url):
     # Получаем данные с сайта
     browser = mechanicalsoup.StatefulBrowser()
-    soup = BeautifulSoup(browser.open('https://xn--80aesfpebagmfblc0a.xn--p1ai/information/').text, features='lxml')
+    soup = BeautifulSoup(browser.open(url).text, features='lxml')
 
     # Данные по Москве
     ru_data = json.loads(soup.find("cv-stats-virus").attrs[":stats-data"])
@@ -120,7 +124,7 @@ def get_tginfo_message(*args):
 
 def print_data():
     print("Запрашиваем данные с сайта...")
-    site_data = get_site_data()
+    site_data = get_site_data(STOP_CORONAVIRUS_URL)
     print("Данные с сайта получены.")
 
     print("Запрашиваем данные из телеграма...")
