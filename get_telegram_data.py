@@ -54,10 +54,3 @@ def get_opershtab_db():
             infected, hospitalized, ventilated = [int(s) for s in words if s.isdigit()]
             database.append([message.date, infected, hospitalized, ventilated])
     return database
-
-
-def print_opershtab_db(database):
-    # Печатаем базу данных
-    for data in database:
-        print(f"Данные на дату {data[0].strftime('%d-%m-%Y')}: Заражено {data[1]}, "
-              f"госпитализировано {data[2]}, на ИВЛ: {data[3]}")
