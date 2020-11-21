@@ -14,7 +14,7 @@ def test_text2int():
 
 
 def test_parse_site_data():
-    regions = parse_site_data(open('./stop-corona.html').read())
+    regions = parse_site_data(open('fixtures/stop-corona.html').read())
     ru, mow = regions['Россия'], regions['Москва']
     # Russia
     assert ru.sick_inc == 24_318
@@ -44,7 +44,7 @@ def test_region_data():
 
 
 def test_regions_stats():
-    regions = parse_site_data(open('./stop-corona.html').read())
+    regions = parse_site_data(open('fixtures/stop-corona.html').read())
     assert regions.stats(['Россия', 'Москва']) == (
         'Россия: +24318 человек (+1.21% от всех случаев, +5.36% от активных случаев), всего 2,039,926.\n'
         'Москва: +6902 человек (+1.29% от всех случаев, +5.05% от активных случаев), всего 539,970.')
@@ -77,7 +77,7 @@ def test_extract_last_data():
     #   import pickle
     #   import telegram
     #   pickle.dump(telegram.get_messages('https://t.me/COVID2019_official'), open('./messages.pickle', 'wb'))
-    messages = pickle.load(open('./messages.pickle', 'rb'))
+    messages = pickle.load(open('fixtures/messages.pickle', 'rb'))
     hospitalized, ventilated, hosp_inc, vent_inc, last_available_date = extract_last_data(messages)
     assert hospitalized == 1_535
     assert hosp_inc == 46
