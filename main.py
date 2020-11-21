@@ -10,7 +10,7 @@ STOP_CORONAVIRUS_URL = 'https://xn--80aesfpebagmfblc0a.xn--p1ai/information/'
 
 
 def text2int(str_array):
-    # Конвертируем массив текстовых форматированных записей в массив чисел
+    # Конвертируем массив текстовых форматированных записей в массив чисел.
     return [int(s.replace(' ', '')) if isinstance(s, str) else s
             for s in str_array]
 
@@ -76,7 +76,7 @@ def print_data():
     tg_data = extract_last_data()
     print("Данные из телеграма получены.\n")
 
-    print("Сформированное сообщение о ситуации:\n====================================\n")
+    print('Сформированное сообщение о ситуации:\n====================================\n')
 
     print("#коронавирус\n#официальныеданные\n#указаниясобянинавыполним\n")
     print(regions.stats(('Россия', 'Москва')))
@@ -85,3 +85,6 @@ def print_data():
 
 if __name__ == '__main__':
     print_data()
+
+
+
