@@ -153,7 +153,8 @@ def print_data():
     print("Сформированное сообщение о ситуации:\n====================================\n")
 
     print("#коронавирус\n#официальныеданные\n#указаниясобянинавыполним\n")
-    print(get_site_info_message(site_data) + '\n' + get_tginfo_message(*tg_data))
+    print(get_site_info_message(site_data))
+    print(get_tginfo_message(*tg_data))
 
 
 if __name__ == '__main__':
