@@ -10,7 +10,7 @@ def test_text2int():
 
 
 def test_parse_site_data():
-    ru, mow = parse_site_data(open('./stop-corona.html', 'r').read())
+    ru, mow = parse_site_data(open('./stop-corona.html').read())
     # Russia
     assert ru.sick_inc == 24_318
     assert round(ru.inc_total_percentage, 2) == 1.21
