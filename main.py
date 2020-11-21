@@ -27,22 +27,10 @@ class RegionData:
         self.sick, self.sick_inc, self.healed, self.healed_inc, self.died, self.died_inc = text2int([
             d[fields[0]], d[fields[1]], d[fields[2]], d[fields[3]], d[fields[4]], d[fields[5]],
         ])
-
-    @property
-    def active(self):
-        return self.sick - self.healed - self.died
-
-    @property
-    def active_yesterday(self):
-        return self.active - self.sick_inc + self.healed_inc + self.died_inc
-
-    @property
-    def inc_total_percentage(self):
-        return self.sick_inc / (self.sick - self.sick_inc) * 100.0
-
-    @property
-    def inc_active_percentage(self):
-        return self.sick_inc / self.active_yesterday * 100
+        self.active = self.sick - self.healed - self.died
+        self.active_yesterday = self.active - self.sick_inc + self.healed_inc + self.died_inc
+        self.inc_total_percentage = self.sick_inc / (self.sick - self.sick_inc) * 100.0
+        self.inc_active_percentage = self.sick_inc / self.active_yesterday * 100
 
     def stats(self):
         """Return a line with stats for the region."""
