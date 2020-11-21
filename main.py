@@ -97,8 +97,8 @@ def extract_last_data(db):
     return hospitalized, ventilated, hosp_inc, vent_inc, last_available_date
 
 
-def get_site_info_message(args):
-    ru, mow = args['Россия'], args['Москва']
+def get_site_info_message(regions):
+    ru, mow = regions['Россия'], regions['Москва']
     return f"Россия: {ru.sick_inc:+d} человек ({ru.inc_total_percentage:+.2f}% от всех случаев, " \
            f"{ru.inc_active_percentage:+.2f}% от активных случаев), всего {ru.sick:,}.\n" \
            f"Москва: {mow.sick_inc:+d} человек (соответственно {mow.inc_total_percentage:+.2f}% , " \
