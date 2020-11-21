@@ -48,6 +48,7 @@ def get_site_data(url):
 
 
 RUSSIAN_DATA_FIELD_NAMES = ('sick', 'sickChange', 'healed', 'healedChange', 'died', 'diedChange')
+REGION_DATA_FIELD_NAMES = ('sick', 'sick_incr', 'healed', 'healed_incr', 'died', 'died_incr')
 
 def parse_site_data(text):
     soup = BeautifulSoup(text, features='lxml')

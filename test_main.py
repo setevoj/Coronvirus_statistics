@@ -1,6 +1,6 @@
 from main import (
     text2int, parse_site_data, get_site_info_message,
-    RegionData, RUSSIAN_DATA_FIELD_NAMES
+    RegionData, RUSSIAN_DATA_FIELD_NAMES, REGION_DATA_FIELD_NAMES
 )
 
 
@@ -33,6 +33,12 @@ def test_region_data():
                       RUSSIAN_DATA_FIELD_NAMES)
     assert data.active == 453_201
     assert data.active - data.active_yesterday == -901
+
+    data = RegionData('Москва',
+                      dict(sick=539_970, sick_incr=6_902, healed=394_252, healed_incr=5_836,
+                           died=8_159, died_incr=77),
+                      REGION_DATA_FIELD_NAMES)
+    assert data.active == 137_559
 
 
 def test_get_site_info_message():
