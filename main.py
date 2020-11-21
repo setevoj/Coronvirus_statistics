@@ -2,7 +2,7 @@ import json
 import mechanicalsoup
 from bs4 import BeautifulSoup
 
-from moscow_data import extract_last_data, get_tginfo_message, get_opershtab_db
+from moscow_data import extract_last_data, get_tginfo_message
 
 
 # https://стопкоронавирус.рф/information/

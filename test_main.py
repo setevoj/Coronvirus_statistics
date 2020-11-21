@@ -5,7 +5,7 @@ from main import (
     text2int, parse_site_data,
     RegionData, RUSSIAN_DATA_FIELD_NAMES, REGION_DATA_FIELD_NAMES
 )
-from moscow_data import MoscowData, extract_last_data, get_opershtab_db
+from moscow_data import MoscowData, extract_last_data
 
 
 def test_text2int():
@@ -78,8 +78,7 @@ def test_extract_last_data():
     #   import telegram
     #   pickle.dump(telegram.get_messages('https://t.me/COVID2019_official'), open('./messages.pickle', 'wb'))
     messages = pickle.load(open('./messages.pickle', 'rb'))
-    hospitalized, ventilated, hosp_inc, vent_inc, last_available_date = \
-        extract_last_data(get_opershtab_db(messages))
+    hospitalized, ventilated, hosp_inc, vent_inc, last_available_date = extract_last_data(messages)
     assert hospitalized == 1_535
     assert hosp_inc == 46
     assert ventilated == 419

@@ -17,16 +17,14 @@ class MoscowData:
         self.infected, self.hospitalized, self.ventilated = [int(s) for s in words if s.isdigit()]
 
 
-def get_opershtab_db(messages=None):
-    if not messages:
-        messages = get_messages(MOSCOW_COVID_CHANNEL, 100)
-    return [MoscowData(m.date.date(), m.raw_text) for m in messages if MOSCOW_DATA_TAG in m.raw_text]
-
-
-def extract_last_data(db):
+def extract_last_data(messages=None):
     # Вычленяем данные оперштаба Москвы за последнюю доступную дату из общей базы
     # Возвращаем данные за сегодняшнее число (или None, если таких данных не найдено), а также прирост/убыль
     # госпитализаций и людей на аппаратах ИВЛ по сравнению с предыдущим днём
+    if not messages:
+        messages = get_messages(MOSCOW_COVID_CHANNEL, 100)
+    db = [MoscowData(m.date.date(), m.raw_text) for m in messages if MOSCOW_DATA_TAG in m.raw_text]
+
     if len(db) == 0:
         return [None] * 5
 
