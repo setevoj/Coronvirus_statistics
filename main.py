@@ -1,7 +1,7 @@
 import json
 import mechanicalsoup
 from bs4 import BeautifulSoup
-from datetime import datetime, timedelta, date
+from datetime import datetime, timedelta
 import get_telegram_data
 
 
@@ -45,7 +45,7 @@ def get_site_data():
     mow_inc_active_percentage = mow_sick_inc / mow_active_yesterday * 100
 
     return ru_sick_inc, ru_inc_total_percentage, ru_inc_active_percentage, ru_sick, \
-           mow_sick_inc, mow_inc_total_percentage, mow_inc_active_percentage, mow_sick
+        mow_sick_inc, mow_inc_total_percentage, mow_inc_active_percentage, mow_sick
 
 
 def extract_last_data(db):
@@ -80,7 +80,7 @@ def extract_last_data(db):
 
 def get_siteinfo_message(*args):
     ru_sick_inc, ru_inc_total_percentage, ru_inc_active_percentage, ru_sick, \
-    mow_sick_inc, mow_inc_total_percentage, mow_inc_active_percentage, mow_sick = args
+        mow_sick_inc, mow_inc_total_percentage, mow_inc_active_percentage, mow_sick = args
     return f"Россия: {ru_sick_inc:+d} человек ({ru_inc_total_percentage:+.2f}% от всех случаев, " \
            f"{ru_inc_active_percentage:+.2f}% от активных случаев), всего {ru_sick:,}.\n" \
            f"Москва: {mow_sick_inc:+d} человек (соответственно {mow_inc_total_percentage:+.2f}% , " \
