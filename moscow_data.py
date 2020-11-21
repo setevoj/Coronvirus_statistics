@@ -44,9 +44,7 @@ def extract_last_data(db):
             last.date)
 
 
-def get_tginfo_message(*args):
-    hospitalized, ventilated, hosp_inc, vent_inc, data_date = args
-
+def get_tginfo_message(hospitalized, ventilated, hosp_inc, vent_inc, data_date):
     # Формируем правильное имя для дня по которому есть данные в телеграме
     if data_date is None:
         day_name = 'последнее время'
