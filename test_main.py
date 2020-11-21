@@ -1,10 +1,7 @@
 import datetime
 import pickle
 
-from main import (
-    text2int, parse_site_data,
-    RegionData, RUSSIAN_DATA_FIELD_NAMES, REGION_DATA_FIELD_NAMES
-)
+from regions_data import text2int, RUSSIAN_DATA_FIELD_NAMES, REGION_DATA_FIELD_NAMES, RegionData, parse_site_data
 from moscow_data import MoscowData, extract_last_data
 
 
