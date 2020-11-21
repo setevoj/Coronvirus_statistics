@@ -76,7 +76,7 @@ def test_extract_last_data():
     # We've created messages.pickle by running the following commands:
     #   import pickle
     #   import telegram
-    #   pickle.dump(telegram.get_messages('https://t.me/COVID2019_official'), open('./messages.pickle', 'wb'))
+    #   pickle.dump(telegram.get_messages('https://t.me/COVID2019_official'), open('fixtures/messages.pickle', 'wb'))
     messages = pickle.load(open('fixtures/messages.pickle', 'rb'))
     hospitalized, ventilated, hosp_inc, vent_inc, last_available_date = extract_last_data(messages)
     assert hospitalized == 1_535
