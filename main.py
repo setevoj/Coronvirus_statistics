@@ -86,7 +86,7 @@ def extract_last_data(db):
     return hospitalized, ventilated, hosp_inc, vent_inc, last_available_date
 
 
-def get_siteinfo_message(*args):
+def get_site_info_message(*args):
     ru_sick_inc, ru_inc_total_percentage, ru_inc_active_percentage, ru_sick, \
         mow_sick_inc, mow_inc_total_percentage, mow_inc_active_percentage, mow_sick = args
     return f"Россия: {ru_sick_inc:+d} человек ({ru_inc_total_percentage:+.2f}% от всех случаев, " \
@@ -140,7 +140,7 @@ def print_data():
     print("Сформированное сообщение о ситуации:\n====================================\n")
 
     print("#коронавирус\n#официальныеданные\n#указаниясобянинавыполним\n")
-    print(get_siteinfo_message(*site_data) + '\n' + get_tginfo_message(*tg_data))
+    print(get_site_info_message(*site_data) + '\n' + get_tginfo_message(*tg_data))
 
 
 if __name__ == '__main__':

@@ -1,4 +1,4 @@
-from main import text2int, parse_site_data
+from main import text2int, parse_site_data, get_site_info_message
 
 
 def test_text2int():
@@ -21,3 +21,10 @@ def test_parse_site_data():
     assert mow_sick == 539_970
     assert round(mow_inc_total_percentage, 2) == 1.29
     assert round(mow_inc_active_percentage, 2) == 5.05
+
+
+def test_get_site_info_message():
+    site_data = parse_site_data(open('./stop-corona.html').read())
+    assert get_site_info_message(*site_data) == (
+        'Россия: +24318 человек (+1.21% от всех случаев, +5.36% от активных случаев), всего 2,039,926.\n'
+        'Москва: +6902 человек (соответственно +1.29% , +5.05%), всего 539,970.')
