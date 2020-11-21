@@ -101,8 +101,8 @@ def get_site_info_message(regions):
     ru, mow = regions['Россия'], regions['Москва']
     return f"Россия: {ru.sick_inc:+d} человек ({ru.inc_total_percentage:+.2f}% от всех случаев, " \
            f"{ru.inc_active_percentage:+.2f}% от активных случаев), всего {ru.sick:,}.\n" \
-           f"Москва: {mow.sick_inc:+d} человек (соответственно {mow.inc_total_percentage:+.2f}% , " \
-           f"{mow.inc_active_percentage:+.2f}%), всего {mow.sick:,}."
+           f"Москва: {mow.sick_inc:+d} человек ({mow.inc_total_percentage:+.2f}% от всех случаев, " \
+           f"{mow.inc_active_percentage:+.2f}% от активных случаев), всего {mow.sick:,}."
 
 
 def get_tginfo_message(*args):
