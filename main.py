@@ -44,6 +44,13 @@ class RegionData:
     def inc_active_percentage(self):
         return self.sick_inc / self.active_yesterday * 100
 
+    def stats(self):
+        """Return a line with stats for the region."""
+        return (
+            f"{self.name}: {self.sick_inc:+d} человек ({self.inc_total_percentage:+.2f}% от всех случаев, "
+            f"{self.inc_active_percentage:+.2f}% от активных случаев), всего {self.sick:,}."
+        )
+
 
 def get_site_data(url):
     # Получаем данные с сайта
@@ -98,11 +105,7 @@ def extract_last_data(db):
 
 
 def get_site_info_message(regions):
-    ru, mow = regions['Россия'], regions['Москва']
-    return f"Россия: {ru.sick_inc:+d} человек ({ru.inc_total_percentage:+.2f}% от всех случаев, " \
-           f"{ru.inc_active_percentage:+.2f}% от активных случаев), всего {ru.sick:,}.\n" \
-           f"Москва: {mow.sick_inc:+d} человек ({mow.inc_total_percentage:+.2f}% от всех случаев, " \
-           f"{mow.inc_active_percentage:+.2f}% от активных случаев), всего {mow.sick:,}."
+    return regions['Россия'].stats() + '\n' + regions['Москва'].stats()
 
 
 def get_tginfo_message(*args):
