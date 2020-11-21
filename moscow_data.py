@@ -18,7 +18,6 @@ class MoscowData:
 
 
 def get_opershtab_db(messages=None):
-    database = []
     if not messages:
         messages = get_messages(MOSCOW_COVID_CHANNEL, 100)
     return [MoscowData(m.date.date(), m.raw_text) for m in messages if MOSCOW_DATA_TAG in m.raw_text]
