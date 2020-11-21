@@ -4,8 +4,6 @@ from datetime import timedelta, datetime
 from telegram import get_messages
 
 MOSCOW_COVID_CHANNEL = 'https://t.me/COVID2019_official'
-
-
 MOSCOW_DATA_TAG = '️В Москве за сутки госпитализировали'
 
 
@@ -19,9 +17,11 @@ class MoscowData:
         self.infected, self.hospitalized, self.ventilated = [int(s) for s in words if s.isdigit()]
 
 
-def get_opershtab_db():
+def get_opershtab_db(messages=None):
     database = []
-    for message in get_messages(MOSCOW_COVID_CHANNEL, 100):
+    if not messages:
+        messages = get_messages(MOSCOW_COVID_CHANNEL, 100)
+    for message in messages:
         if '️В Москве за сутки госпитализировали' in message.raw_text:
             # Берём данные из третьей строки
             words = message.raw_text.splitlines()[2].split()
