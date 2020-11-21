@@ -6,10 +6,9 @@ def test_text2int():
 
 
 def test_parse_site_data():
-    with open('./stop-corona.html', 'r') as f:
-        ru_sick_inc, ru_inc_total_percentage, ru_inc_active_percentage, ru_sick, mow_sick_inc, \
-            mow_inc_total_percentage, mow_inc_active_percentage, mow_sick = \
-            parse_site_data(f.read())
+    ru_sick_inc, ru_inc_total_percentage, ru_inc_active_percentage, ru_sick, mow_sick_inc, \
+        mow_inc_total_percentage, mow_inc_active_percentage, mow_sick = \
+        parse_site_data(open('./stop-corona.html', 'r').read())
     # Russia
     assert ru_sick_inc == 24_318
     assert round(ru_inc_total_percentage, 2) == 1.21
