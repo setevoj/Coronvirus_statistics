@@ -39,10 +39,10 @@ class RegionData:
         )
 
 
-def get_site_data(url):
+def get_site_data():
     # Получаем данные с сайта.
     browser = mechanicalsoup.StatefulBrowser()
-    return parse_site_data(browser.open(url).text)
+    return parse_site_data(browser.open(STOP_CORONAVIRUS_URL).text)
 
 
 class Regions(dict):

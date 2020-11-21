@@ -1,10 +1,10 @@
 from moscow_data import extract_last_data, get_tginfo_message
-from regions_data import STOP_CORONAVIRUS_URL, get_site_data
+from regions_data import get_site_data
 
 
 def print_data():
     print("Запрашиваем данные с сайта...")
-    regions = get_site_data(STOP_CORONAVIRUS_URL)
+    regions = get_site_data()
     print("Данные с сайта получены.")
 
     print("Запрашиваем данные из телеграма...")
