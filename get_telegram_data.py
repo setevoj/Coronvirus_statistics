@@ -4,7 +4,6 @@ from config import username, api_id, api_hash
 from telethon import TelegramClient
 from telethon.tl.functions.messages import (GetHistoryRequest)
 
-
 moscow_covid_channel = 'https://t.me/COVID2019_official'
 client = TelegramClient(username, api_id, api_hash)
 
@@ -12,14 +11,14 @@ client = TelegramClient(username, api_id, api_hash)
 async def get_channel_data():
     opershtab_channel = await client.get_entity(moscow_covid_channel)
 
-    database = [] # Сюда будем писать данные по датам
+    database = []  # Сюда будем писать данные по датам
 
     history = await client(GetHistoryRequest(
         peer=opershtab_channel,
-        offset_id = 0,
-        offset_date = None,
-        add_offset = 0,
-        limit = 100,
+        offset_id=0,
+        offset_date=None,
+        add_offset=0,
+        limit=100,
         max_id=0,
         min_id=0,
         hash=0
