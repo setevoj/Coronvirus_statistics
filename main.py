@@ -15,6 +15,10 @@ def text2int(str_array):
             for s in str_array]
 
 
+RUSSIAN_DATA_FIELD_NAMES = ('sick', 'sickChange', 'healed', 'healedChange', 'died', 'diedChange')
+REGION_DATA_FIELD_NAMES = ('sick', 'sick_incr', 'healed', 'healed_incr', 'died', 'died_incr')
+
+
 class RegionData:
     def __init__(self, name, d, fields):
         """Capture COVID data for region NAME from a dict D.
@@ -47,43 +51,19 @@ def get_site_data(url):
     return parse_site_data(browser.open(url).text)
 
 
-RUSSIAN_DATA_FIELD_NAMES = ('sick', 'sickChange', 'healed', 'healedChange', 'died', 'diedChange')
-REGION_DATA_FIELD_NAMES = ('sick', 'sick_incr', 'healed', 'healed_incr', 'died', 'died_incr')
-
 def parse_site_data(text):
     soup = BeautifulSoup(text, features='lxml')
 
     # Данные по Москве
     ru_data = json.loads(soup.find("cv-stats-virus").attrs[":stats-data"])
-    ru_sick, ru_sick_inc, ru_healed, ru_healed_inc, ru_died, ru_died_inc = text2int([ru_data['sick'],
-                                                                                     ru_data['sickChange'],
-                                                                                     ru_data['healed'],
-                                                                                     ru_data['healedChange'],
-                                                                                     ru_data['died'],
-                                                                                     ru_data['diedChange']])
-
-    ru_active = ru_sick - ru_healed - ru_died
-    ru_active_yesterday = ru_active - ru_sick_inc + ru_healed_inc + ru_died_inc
-    ru_inc_total_percentage = ru_sick_inc / (ru_sick - ru_sick_inc) * 100
-    ru_inc_active_percentage = ru_sick_inc / ru_active_yesterday * 100
-
-    # Данные по региону
+    ru = RegionData('Россия', ru_data, RUSSIAN_DATA_FIELD_NAMES)
     regions_data = soup.find("cv-spread-overview")  # and tag.has_attr('id') and tag['id'] == "Table1")
+
     data = json.loads(regions_data.attrs[':spread-data'])
     mow_data = [x for x in data if x['title'] == 'Москва'][0]
-    mow_sick, mow_sick_inc, mow_healed, mow_healed_inc, mow_died, mow_died_inc = [mow_data['sick'],
-                                                                                  mow_data['sick_incr'],
-                                                                                  mow_data['healed'],
-                                                                                  mow_data['healed_incr'],
-                                                                                  mow_data['died'],
-                                                                                  mow_data['died_incr']]
-    mow_active = mow_sick - mow_healed - mow_died
-    mow_active_yesterday = mow_active - mow_sick_inc + mow_healed_inc + mow_died_inc
-    mow_inc_total_percentage = mow_sick_inc / (mow_sick - mow_sick_inc) * 100
-    mow_inc_active_percentage = mow_sick_inc / mow_active_yesterday * 100
+    mow = RegionData('Москва', mow_data, REGION_DATA_FIELD_NAMES)
 
-    return ru_sick_inc, ru_inc_total_percentage, ru_inc_active_percentage, ru_sick, \
-        mow_sick_inc, mow_inc_total_percentage, mow_inc_active_percentage, mow_sick
+    return ru, mow
 
 
 def extract_last_data(db):
@@ -117,12 +97,11 @@ def extract_last_data(db):
 
 
 def get_site_info_message(*args):
-    ru_sick_inc, ru_inc_total_percentage, ru_inc_active_percentage, ru_sick, \
-        mow_sick_inc, mow_inc_total_percentage, mow_inc_active_percentage, mow_sick = args
-    return f"Россия: {ru_sick_inc:+d} человек ({ru_inc_total_percentage:+.2f}% от всех случаев, " \
-           f"{ru_inc_active_percentage:+.2f}% от активных случаев), всего {ru_sick:,}.\n" \
-           f"Москва: {mow_sick_inc:+d} человек (соответственно {mow_inc_total_percentage:+.2f}% , " \
-           f"{mow_inc_active_percentage:+.2f}%), всего {mow_sick:,}."
+    ru, mow = args
+    return f"Россия: {ru.sick_inc:+d} человек ({ru.inc_total_percentage:+.2f}% от всех случаев, " \
+           f"{ru.inc_active_percentage:+.2f}% от активных случаев), всего {ru.sick:,}.\n" \
+           f"Москва: {mow.sick_inc:+d} человек (соответственно {mow.inc_total_percentage:+.2f}% , " \
+           f"{mow.inc_active_percentage:+.2f}%), всего {mow.sick:,}."
 
 
 def get_tginfo_message(*args):

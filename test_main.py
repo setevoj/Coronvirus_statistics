@@ -10,20 +10,17 @@ def test_text2int():
 
 
 def test_parse_site_data():
-    ru_sick_inc, ru_inc_total_percentage, ru_inc_active_percentage, ru_sick, mow_sick_inc, \
-        mow_inc_total_percentage, mow_inc_active_percentage, mow_sick = \
-        parse_site_data(open('./stop-corona.html', 'r').read())
+    ru, mow = parse_site_data(open('./stop-corona.html', 'r').read())
     # Russia
-    assert ru_sick_inc == 24_318
-    assert round(ru_inc_total_percentage, 2) == 1.21
-    assert round(ru_inc_active_percentage, 2) == 5.36
-    assert ru_sick == 2_039_926
-
+    assert ru.sick_inc == 24_318
+    assert round(ru.inc_total_percentage, 2) == 1.21
+    assert round(ru.inc_active_percentage, 2) == 5.36
+    assert ru.sick == 2_039_926
     # Moscow
-    assert mow_sick_inc == 6_902
-    assert mow_sick == 539_970
-    assert round(mow_inc_total_percentage, 2) == 1.29
-    assert round(mow_inc_active_percentage, 2) == 5.05
+    assert mow.sick_inc == 6_902
+    assert mow.sick == 539_970
+    assert round(mow.inc_total_percentage, 2) == 1.29
+    assert round(mow.inc_active_percentage, 2) == 5.05
 
 
 def test_region_data():
