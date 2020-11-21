@@ -52,18 +52,19 @@ def get_site_data(url):
 
 
 def parse_site_data(text):
+    """Extract RegionData from a web page text and return a dict region:RegionData."""
     soup = BeautifulSoup(text, features='lxml')
 
-    # Данные по Москве
+    regions_data = soup.find("cv-spread-overview")
+    data = json.loads(regions_data.attrs[':spread-data'])
+
+    regions_data = {x['title']: RegionData(x['title'], x, REGION_DATA_FIELD_NAMES) for x in data}
+
+    # Russian data has a different set of field names
     ru_data = json.loads(soup.find("cv-stats-virus").attrs[":stats-data"])
     ru = RegionData('Россия', ru_data, RUSSIAN_DATA_FIELD_NAMES)
-    regions_data = soup.find("cv-spread-overview")  # and tag.has_attr('id') and tag['id'] == "Table1")
 
-    data = json.loads(regions_data.attrs[':spread-data'])
-    mow_data = [x for x in data if x['title'] == 'Москва'][0]
-    mow = RegionData('Москва', mow_data, REGION_DATA_FIELD_NAMES)
-
-    return ru, mow
+    return {**regions_data, 'Россия': ru}
 
 
 def extract_last_data(db):
@@ -96,8 +97,8 @@ def extract_last_data(db):
     return hospitalized, ventilated, hosp_inc, vent_inc, last_available_date
 
 
-def get_site_info_message(*args):
-    ru, mow = args
+def get_site_info_message(args):
+    ru, mow = args['Россия'], args['Москва']
     return f"Россия: {ru.sick_inc:+d} человек ({ru.inc_total_percentage:+.2f}% от всех случаев, " \
            f"{ru.inc_active_percentage:+.2f}% от активных случаев), всего {ru.sick:,}.\n" \
            f"Москва: {mow.sick_inc:+d} человек (соответственно {mow.inc_total_percentage:+.2f}% , " \
@@ -149,7 +150,7 @@ def print_data():
     print("Сформированное сообщение о ситуации:\n====================================\n")
 
     print("#коронавирус\n#официальныеданные\n#указаниясобянинавыполним\n")
-    print(get_site_info_message(*site_data) + '\n' + get_tginfo_message(*tg_data))
+    print(get_site_info_message(site_data) + '\n' + get_tginfo_message(*tg_data))
 
 
 if __name__ == '__main__':

@@ -10,7 +10,8 @@ def test_text2int():
 
 
 def test_parse_site_data():
-    ru, mow = parse_site_data(open('./stop-corona.html').read())
+    regions = parse_site_data(open('./stop-corona.html').read())
+    ru, mow = regions['Россия'], regions['Москва']
     # Russia
     assert ru.sick_inc == 24_318
     assert round(ru.inc_total_percentage, 2) == 1.21
@@ -40,6 +41,6 @@ def test_region_data():
 
 def test_get_site_info_message():
     site_data = parse_site_data(open('./stop-corona.html').read())
-    assert get_site_info_message(*site_data) == (
+    assert get_site_info_message(site_data) == (
         'Россия: +24318 человек (+1.21% от всех случаев, +5.36% от активных случаев), всего 2,039,926.\n'
         'Москва: +6902 человек (соответственно +1.29% , +5.05%), всего 539,970.')
