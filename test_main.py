@@ -1,5 +1,5 @@
 from main import (
-    text2int, parse_site_data, get_site_info_message,
+    text2int, parse_site_data,
     RegionData, RUSSIAN_DATA_FIELD_NAMES, REGION_DATA_FIELD_NAMES
 )
 
@@ -39,8 +39,8 @@ def test_region_data():
     assert data.active == 137_559
 
 
-def test_get_site_info_message():
-    site_data = parse_site_data(open('./stop-corona.html').read())
-    assert get_site_info_message(site_data) == (
+def test_regions_stats():
+    regions = parse_site_data(open('./stop-corona.html').read())
+    assert regions.stats(['Россия', 'Москва']) == (
         'Россия: +24318 человек (+1.21% от всех случаев, +5.36% от активных случаев), всего 2,039,926.\n'
         'Москва: +6902 человек (+1.29% от всех случаев, +5.05% от активных случаев), всего 539,970.')

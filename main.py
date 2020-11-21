@@ -58,6 +58,11 @@ def get_site_data(url):
     return parse_site_data(browser.open(url).text)
 
 
+class Regions(dict):
+    def stats(self, regions):
+        return '\n'.join(self[r].stats() for r in regions)
+
+
 def parse_site_data(text):
     """Extract RegionData from a web page text and return a dict region:RegionData."""
     soup = BeautifulSoup(text, features='lxml')
@@ -71,7 +76,7 @@ def parse_site_data(text):
     ru_data = json.loads(soup.find("cv-stats-virus").attrs[":stats-data"])
     ru = RegionData('Россия', ru_data, RUSSIAN_DATA_FIELD_NAMES)
 
-    return {**regions_data, 'Россия': ru}
+    return Regions({**regions_data, 'Россия': ru})
 
 
 def extract_last_data(db):
@@ -102,10 +107,6 @@ def extract_last_data(db):
         hosp_inc, vent_inc = [None] * 2
 
     return hospitalized, ventilated, hosp_inc, vent_inc, last_available_date
-
-
-def get_site_info_message(regions):
-    return regions['Россия'].stats() + '\n' + regions['Москва'].stats()
 
 
 def get_tginfo_message(*args):
@@ -141,7 +142,7 @@ def get_tginfo_message(*args):
 
 def print_data():
     print("Запрашиваем данные с сайта...")
-    site_data = get_site_data(STOP_CORONAVIRUS_URL)
+    regions = get_site_data(STOP_CORONAVIRUS_URL)
     print("Данные с сайта получены.")
 
     print("Запрашиваем данные из телеграма...")
@@ -153,7 +154,7 @@ def print_data():
     print("Сформированное сообщение о ситуации:\n====================================\n")
 
     print("#коронавирус\n#официальныеданные\n#указаниясобянинавыполним\n")
-    print(get_site_info_message(site_data))
+    print(regions.stats(('Россия', 'Москва')))
     print(get_tginfo_message(*tg_data))
 
 
