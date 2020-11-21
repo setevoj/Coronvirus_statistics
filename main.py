@@ -11,7 +11,34 @@ STOP_CORONAVIRUS_URL = 'https://xn--80aesfpebagmfblc0a.xn--p1ai/information/'
 
 def text2int(str_array):
     # Конвертируем массив текстовых форматированных записей в массив чисел
-    return [int(s.replace(' ', '')) for s in str_array]
+    return [int(s.replace(' ', '')) if isinstance(s, str) else s
+            for s in str_array]
+
+
+class RegionData:
+    def __init__(self, name, d, fields):
+        """Capture COVID data for region NAME from a dict D.
+        NAMES should be the names of the fields for sick, healed, and died, along with their daily changes."""
+        self.name = name
+        self.sick, self.sick_inc, self.healed, self.healed_inc, self.died, self.died_inc = text2int([
+            d[fields[0]], d[fields[1]], d[fields[2]], d[fields[3]], d[fields[4]], d[fields[5]],
+        ])
+
+    @property
+    def active(self):
+        return self.sick - self.healed - self.died
+
+    @property
+    def active_yesterday(self):
+        return self.active - self.sick_inc + self.healed_inc + self.died_inc
+
+    @property
+    def inc_total_percentage(self):
+        return self.sick_inc / (self.sick - self.sick_inc) * 100.0
+
+    @property
+    def inc_active_percentage(self):
+        return self.sick_inc / self.active_yesterday * 100
 
 
 def get_site_data(url):
@@ -19,6 +46,8 @@ def get_site_data(url):
     browser = mechanicalsoup.StatefulBrowser()
     return parse_site_data(browser.open(url).text)
 
+
+RUSSIAN_DATA_FIELD_NAMES = ('sick', 'sickChange', 'healed', 'healedChange', 'died', 'diedChange')
 
 def parse_site_data(text):
     soup = BeautifulSoup(text, features='lxml')
