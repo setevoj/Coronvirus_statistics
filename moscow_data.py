@@ -21,44 +21,28 @@ def get_opershtab_db(messages=None):
     database = []
     if not messages:
         messages = get_messages(MOSCOW_COVID_CHANNEL, 100)
-    for message in messages:
-        if '️В Москве за сутки госпитализировали' in message.raw_text:
-            # Берём данные из третьей строки
-            words = message.raw_text.splitlines()[2].split()
-            # Вычленяем три числа из третьей строки
-            infected, hospitalized, ventilated = [int(s) for s in words if s.isdigit()]
-            database.append([message.date, infected, hospitalized, ventilated])
-    return database
+    return [MoscowData(m.date.date(), m.raw_text) for m in messages if MOSCOW_DATA_TAG in m.raw_text]
 
 
 def extract_last_data(db):
     # Вычленяем данные оперштаба Москвы за последнюю доступную дату из общей базы
     # Возвращаем данные за сегодняшнее число (или None, если таких данных не найдено), а также прирост/убыль
     # госпитализаций и людей на аппаратах ИВЛ по сравнению с предыдущим днём
-    if not db:
+    if len(db) == 0:
         return [None] * 5
 
-    # Данные отсортированы в обратном хронологическом порядке, поэтому первая запись самая актуальная
-    last_available_record = db[0]
-    last_available_date = last_available_record[0].date()  # Дата на первом месте, берём без времени
-    hospitalized = last_available_record[2]
-    ventilated = last_available_record[3]
-
-    # Пробуем получить данные за предыдущую дату
-    previous_date = last_available_date - timedelta(days=1)
-    if len(db) > 1 and db[1][0].date() == previous_date:  # Если есть данные за две даты и
-        # если предыдущая дата была перед последней
-        previous_record = db[1]
+    last = db[0]
+    prev = db[1] if len(db) > 1 and last.date - db[1].date == timedelta(days=1) else None
+    if prev:
+        return (
+            last.hospitalized, last.ventilated,
+            last.hospitalized-prev.hospitalized, last.ventilated-prev.ventilated,
+            last.date)
     else:
-        previous_record = []
-
-    if previous_record:  # Есть данные за вчера
-        hosp_inc = hospitalized - previous_record[2]
-        vent_inc = ventilated - previous_record[3]
-    else:
-        hosp_inc, vent_inc = [None] * 2
-
-    return hospitalized, ventilated, hosp_inc, vent_inc, last_available_date
+        return (
+            last.hospitalized, last.ventilated,
+            None, None,
+            last.date)
 
 
 def get_tginfo_message(*args):
