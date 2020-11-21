@@ -8,6 +8,21 @@ moscow_covid_channel = 'https://t.me/COVID2019_official'
 client = TelegramClient(username, api_id, api_hash)
 
 
+MOSCOW_DATA_TAG = '️В Москве за сутки госпитализировали'
+
+
+class MoscowData:
+    def __init__(self, date, message_text):
+        assert MOSCOW_DATA_TAG in message_text
+        self.date = date
+        # Берём данные из третьей строки
+        words = message_text.splitlines()[2].split()
+        # Вычленяем три числа из третьей строки
+        self.infected, self.hospitalized, self.ventilated = [int(s) for s in words if s.isdigit()]
+
+
+
+
 async def get_channel_data():
     opershtab_channel = await client.get_entity(moscow_covid_channel)
 
