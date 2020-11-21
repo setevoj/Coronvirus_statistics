@@ -1,10 +1,11 @@
 import datetime
+import pickle
 
 from main import (
     text2int, parse_site_data,
     RegionData, RUSSIAN_DATA_FIELD_NAMES, REGION_DATA_FIELD_NAMES
 )
-from moscow_data import MoscowData
+from moscow_data import MoscowData, extract_last_data, get_opershtab_db
 
 
 def test_text2int():
@@ -69,3 +70,18 @@ def test_parse_opershtab_message():
     assert data.infected == 6_902
     assert data.hospitalized == 1_489
     assert data.ventilated == 423
+
+
+def test_extract_last_data():
+    # We've created messages.pickle by running the following commands:
+    #   import pickle
+    #   import telegram
+    #   pickle.dump(telegram.get_messages('https://t.me/COVID2019_official'), open('./messages.pickle', 'wb'))
+    messages = pickle.load(open('./messages.pickle', 'rb'))
+    hospitalized, ventilated, hosp_inc, vent_inc, last_available_date = \
+        extract_last_data(get_opershtab_db(messages))
+    assert hospitalized == 1_535
+    assert hosp_inc == 46
+    assert ventilated == 419
+    assert vent_inc == -4
+    assert last_available_date == datetime.date(2020, 11, 21)
