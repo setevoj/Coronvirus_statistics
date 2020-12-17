@@ -13,7 +13,7 @@ def string2int(string):
     if s.isdigit():
         return int(s)
     else:
-        return -999999999
+        return 0
 
 
 def text2int(str_array):
