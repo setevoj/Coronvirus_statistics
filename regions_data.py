@@ -18,7 +18,7 @@ def string2int(string):
 
 def text2int(str_array):
     # Конвертируем массив текстовых форматированных записей в массив чисел.
-    return [int(s.replace(' ', '')) if isinstance(s, str) else s
+    return [string2int(s) if isinstance(s, str) else s
             for s in str_array]
 
 
