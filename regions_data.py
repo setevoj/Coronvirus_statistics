@@ -8,6 +8,14 @@ from bs4 import BeautifulSoup
 STOP_CORONAVIRUS_URL = 'https://xn--80aesfpebagmfblc0a.xn--p1ai/information/'
 
 
+def string2int(string):
+    s = string.replace(' ','')
+    if s.isdigit():
+        return int(s)
+    else:
+        return -999999999
+
+
 def text2int(str_array):
     # Конвертируем массив текстовых форматированных записей в массив чисел.
     return [int(s.replace(' ', '')) if isinstance(s, str) else s
