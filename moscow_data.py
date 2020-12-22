@@ -58,12 +58,12 @@ def get_tginfo_message(hospitalized, ventilated, hosp_inc, vent_inc, data_date):
         if hosp_inc is not None:
             message += f" ({hosp_inc:+d} к предыдущему дню).\n"
         else:
-            message += "(данных за предыдущий день нет).\n"
+            message += " (данных за предыдущий день нет).\n"
         message += f"Число больных на ИВЛ в Москве за {day_name}: {ventilated}"
         if vent_inc is not None:
             message += f" ({vent_inc:+d} к предыдущему дню)."
         else:
-            message += "(данных за предыдущий день нет)."
+            message += " (данных за предыдущий день нет)."
     else:
         message = f"Нет данных по госпитализациям в Москве за {day_name}."
         message += f"\nНет данных по больным на ИВЛ в Москве за {day_name}."
