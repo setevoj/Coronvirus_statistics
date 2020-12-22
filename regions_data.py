@@ -10,9 +10,10 @@ STOP_CORONAVIRUS_URL = 'https://xn--80aesfpebagmfblc0a.xn--p1ai/information/'
 
 def string2int(string):
     s = string.replace(' ','')
-    if s.isdigit():
+    try:
         return int(s)
-    else:
+    except:
+        print("Error in string digitalization:", s)
         return 0
 
 
