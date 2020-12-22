@@ -4,7 +4,7 @@ from datetime import timedelta, datetime
 from telegram import get_messages
 
 MOSCOW_COVID_CHANNEL = 'https://t.me/COVID2019_official'
-MOSCOW_DATA_TAG = '️В Москве за сутки госпитализирова'
+MOSCOW_DATA_TAG = 'В столице подтверждено'
 
 
 class MoscowData:
