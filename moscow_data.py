@@ -14,7 +14,11 @@ class MoscowData:
         # Берём данные из третьей строки
         words = message_text.splitlines()[2].split()
         # Вычленяем три числа из третьей строки
-        self.infected, self.hospitalized, self.ventilated = [int(s) for s in words if s.isdigit()][:3]
+        data_array = [int(s) for s in words if s.isdigit()]
+        if len(data_array) == 3:
+            self.infected, self.hospitalized, self.ventilated = data_array
+        elif len(data_array) == 4:
+            self.infected, self.hospitalized, self.ventilated = data_array[0], data_array[1], data_array[3]
 
 
 def extract_last_data(messages=None):
